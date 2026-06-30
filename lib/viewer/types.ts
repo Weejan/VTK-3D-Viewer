@@ -5,13 +5,6 @@ export type SupportedExtension = (typeof SUPPORTED_EXTENSIONS)[number];
 
 export type Representation = "surface" | "wireframe" | "points";
 export type Theme = "dark" | "light";
-export type LightKey =
-  | "headlight"
-  | "top"
-  | "front"
-  | "left"
-  | "right"
-  | "back";
 
 export interface ModelStats {
   /** Number of vertices. */

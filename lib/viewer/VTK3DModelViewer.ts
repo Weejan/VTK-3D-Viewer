@@ -18,14 +18,13 @@ import {
   AXES,
   BACKGROUNDS,
   DEFAULT_MODEL_COLOR,
-  LIGHT_DIRECTIONS,
   MATERIAL,
   POINT_SIZE,
   REPRESENTATION_CODE,
   SPIN_DEGREES_PER_FRAME,
 } from "./constants";
 import { parseModel } from "./readers";
-import type { LightKey, ModelStats, Representation, Theme } from "./types";
+import type { ModelStats, Representation, Theme } from "./types";
 
 // Framework-agnostic VTK.js pipeline. The React layer only calls these methods.
 export class VTK3DModelViewer {
@@ -45,7 +44,6 @@ export class VTK3DModelViewer {
   private representation: Representation = "surface";
   private theme: Theme = "dark";
   private modelColor: [number, number, number] | null = null;
-  private light: vtkLight | null = null;
 
   constructor(container: HTMLDivElement) {
     this.container = container;
@@ -75,10 +73,12 @@ export class VTK3DModelViewer {
       vtkInteractorStyleTrackballCamera.newInstance(),
     );
 
-    this.light = vtkLight.newInstance();
-    this.light.setLightTypeToHeadLight();
-    this.light.setIntensity(1.0);
-    this.renderer.addLight(this.light);
+    // Headlight — always follows the camera for predictable, pleasant shading
+    const headlight = vtkLight.newInstance();
+    headlight.setLightTypeToHeadLight();
+    headlight.setIntensity(1.0);
+    this.renderer.addLight(headlight);
+
     this.renderer.setBackground(...BACKGROUNDS[this.theme]);
 
     this.setupOrientationGizmo();
@@ -261,21 +261,6 @@ export class VTK3DModelViewer {
       this.currentActor.getProperty().setColor(...color);
     } else if (this.currentPolyData) {
       this.applyColors(this.currentPolyData);
-    }
-    this.requestRender();
-  }
-
-  // "headlight" rides the camera; others shine from a fixed direction
-  setLight(key: LightKey): void {
-    if (!this.light) return;
-    if (key === "headlight") {
-      this.light.setLightTypeToHeadLight();
-    } else {
-      const [x, y, z] = LIGHT_DIRECTIONS[key];
-      this.light.setLightTypeToSceneLight();
-      this.light.setPositional(false);
-      this.light.setPosition(x, y, z);
-      this.light.setFocalPoint(0, 0, 0);
     }
     this.requestRender();
   }

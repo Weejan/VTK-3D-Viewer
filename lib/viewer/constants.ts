@@ -1,4 +1,4 @@
-import type { LightKey, Representation, Theme } from "./types";
+import type { Representation, Theme } from "./types";
 
 export const BACKGROUNDS: Record<Theme, [number, number, number]> = {
   dark: [0.04, 0.04, 0.04],
@@ -21,22 +21,10 @@ export const REPRESENTATION_CODE: Record<Representation, number> = {
 export const POINT_SIZE = 3;
 export const SPIN_DEGREES_PER_FRAME = 0.35;
 
-// position each preset light shines from (it aims at the origin)
-export const LIGHT_DIRECTIONS: Record<
-  Exclude<LightKey, "headlight">,
-  [number, number, number]
-> = {
-  top: [0, 1, 0.15],
-  front: [0, 0.2, 1],
-  left: [-1, 0.25, 0.4],
-  right: [1, 0.25, 0.4],
-  back: [0, 0.2, -1],
-};
-
 export const MATERIAL = {
-  ambient: 0.18,
-  diffuse: 0.8,
-  specular: 0.25,
+  ambient: 0.25,
+  diffuse: 0.7,
+  specular: 0.3,
   specularPower: 40,
 } as const;
 

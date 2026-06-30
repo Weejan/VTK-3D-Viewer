@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type * as React from "react";
 import {
   VTK3DModelViewer,
-  type LightKey,
   type ModelStats,
   type Representation,
   type Theme,
@@ -24,7 +23,6 @@ export interface ViewerController {
   theme: Theme;
   stats: ModelStats | null;
   color: string;
-  light: LightKey;
   openFilePicker: () => void;
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onDrop: (e: React.DragEvent) => void;
@@ -37,7 +35,6 @@ export interface ViewerController {
   toggleTheme: () => void;
   resetView: () => void;
   setColor: (key: string, rgb: [number, number, number] | null) => void;
-  setLight: (key: LightKey) => void;
 }
 
 // Owns the viewer lifecycle and all UI state; components just call its actions.
@@ -57,7 +54,6 @@ export function useModelViewer(): ViewerController {
   const [theme, setTheme] = useState<Theme>("dark");
   const [stats, setStats] = useState<ModelStats | null>(null);
   const [color, setColorKey] = useState("original");
-  const [light, setLightKey] = useState<LightKey>("headlight");
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -186,11 +182,6 @@ export function useModelViewer(): ViewerController {
     [],
   );
 
-  const setLight = useCallback((key: LightKey) => {
-    setLightKey(key);
-    viewerRef.current?.setLight(key);
-  }, []);
-
   return {
     containerRef,
     fileInputRef,
@@ -204,7 +195,6 @@ export function useModelViewer(): ViewerController {
     theme,
     stats,
     color,
-    light,
     openFilePicker,
     onInputChange,
     onDrop,
@@ -217,6 +207,5 @@ export function useModelViewer(): ViewerController {
     toggleTheme,
     resetView,
     setColor,
-    setLight,
   };
 }

@@ -1,4 +1,4 @@
-import type { LightKey, ModelStats, Representation } from "@/lib/viewer";
+import type { ModelStats, Representation } from "@/lib/viewer";
 import type { ViewerController } from "@/hooks/useModelViewer";
 import { Section, Stat } from "./ui";
 
@@ -8,15 +8,6 @@ const REP_LABEL: Record<Representation, string> = {
   wireframe: "Wire",
   points: "Points",
 };
-
-const LIGHTS: { key: LightKey; label: string }[] = [
-  { key: "headlight", label: "Camera" },
-  { key: "top", label: "Top" },
-  { key: "front", label: "Front" },
-  { key: "left", label: "Left" },
-  { key: "right", label: "Right" },
-  { key: "back", label: "Back" },
-];
 
 type Swatch = { key: string; label: string; rgb: [number, number, number] | null; css: string };
 const COLORS: Swatch[] = [
@@ -103,27 +94,6 @@ export function Sidebar({ controller }: { controller: ViewerController }) {
                     outlineOffset: -3,
                   }}
                 />
-              ))}
-            </div>
-          </Section>
-
-          <Section label="Light">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gap: 6,
-              }}
-            >
-              {LIGHTS.map((l) => (
-                <button
-                  key={l.key}
-                  className={c.light === l.key ? "active" : ""}
-                  onClick={() => c.setLight(l.key)}
-                  style={{ padding: "6px 4px", fontSize: 12 }}
-                >
-                  {l.label}
-                </button>
               ))}
             </div>
           </Section>
