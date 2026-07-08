@@ -9,9 +9,19 @@ const REP_LABEL: Record<Representation, string> = {
   points: "Points",
 };
 
-type Swatch = { key: string; label: string; rgb: [number, number, number] | null; css: string };
+type Swatch = {
+  key: string;
+  label: string;
+  rgb: [number, number, number] | null;
+  css: string;
+};
 const COLORS: Swatch[] = [
-  { key: "original", label: "Original", rgb: null, css: "conic-gradient(red, orange, yellow, lime, cyan, blue, magenta, red)" },
+  {
+    key: "original",
+    label: "Original",
+    rgb: null,
+    css: "conic-gradient(red, orange, yellow, lime, cyan, blue, magenta, red)",
+  },
   { key: "white", label: "White", rgb: [0.9, 0.9, 0.9], css: "#e6e6e6" },
   { key: "slate", label: "Slate", rgb: [0.5, 0.55, 0.6], css: "#808d99" },
   { key: "red", label: "Red", rgb: [0.85, 0.2, 0.2], css: "#d93333" },
@@ -41,7 +51,7 @@ export function Sidebar({ controller }: { controller: ViewerController }) {
     >
       <div>
         <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 0.3 }}>
-          Orbit
+          VTK 3D Viewer
         </div>
         <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 2 }}>
           Drop a mesh. Look around.
@@ -89,8 +99,7 @@ export function Sidebar({ controller }: { controller: ViewerController }) {
                       c.color === s.key
                         ? "2px solid var(--fg)"
                         : "1px solid var(--border)",
-                    outline:
-                      c.color === s.key ? "2px solid var(--bg)" : "none",
+                    outline: c.color === s.key ? "2px solid var(--bg)" : "none",
                     outlineOffset: -3,
                   }}
                 />
